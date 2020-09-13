@@ -10,19 +10,21 @@ confirm = False
 
 bot = telebot.TeleBot(config.token)
 
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['start', 'help']) #Обработка команды /start
 
 def answer_to_command(message):
 	if message.text == '/start':
 		bot.send_message(message.chat.id, 'Здравствуйте, я бот помогающий вам узнать причитаются ли вам меры социальной поддержки или льготы, если вы готовы начать напишите мне "Начинаем"')
 
 
-@bot.message_handler(content_types=["text"])
+@bot.message_handler(content_types=["text"]) #Хендлер для текста
 
-def answer_to_text(message):
+def firstAsk(message): #Начало опроса
 	if message.text.lower() == 'начинаем':
 		msg = bot.send_message(message.chat.id, 'Первый вопрос: Являетесь ли вы гражданином РФ?')
 		bot.register_next_step_handler(msg, secondAsk)
+	else:
+		bot.send_message(message.chat.id, 'Я пока такого не знаю')
 
 def secondAsk(message):
 	if message.text.lower() == 'да' or message.text.lower() == 'нет':
@@ -54,7 +56,7 @@ def fourthAsk(message):
 		bot.register_next_step_handler(msg, read_agreement)
 	elif message.text.lower() == 'нет':
 		data.append(message.text)
-		keyboard = types.InlineKeyboardMarkup()
+		keyboard = types.InlineKeyboardMarkup() #Inline клавиатура с ссылкой на приложение
 		url_button = types.InlineKeyboardButton(text="Озникомиться", url="https://linksharing.samsungcloud.com/69XlUzpf7Vnn")
 		keyboard.add(url_button)
 		msg = bot.send_message(message.chat.id, '''Ознакомьтесь с политикой обработки персональных данных нажав кнопку "Ознакомиться"
@@ -63,7 +65,7 @@ def fourthAsk(message):
 
 def read_agreement(message):
 	if message.text.lower() == 'ознакомлен' or message.text.lower() == 'ознакомлена':
-		keyboard = telebot.types.ReplyKeyboardMarkup(True)
+		keyboard = telebot.types.ReplyKeyboardMarkup(True) #Соглашение на обработку данных
 		keyboard.row(u'\U00002705'+'Согласен(-на)', u'\U0000274C'+'Не согласен(-на)')
 		msg = bot.send_message(message.chat.id,'''Согласны ли вы на обработку ваших персональных данных?
 Выберите один из вариантов представленных ниже''',reply_markup=keyboard)

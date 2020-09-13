@@ -31,7 +31,7 @@ def secondAsk(message):
 		bot.register_next_step_handler(msg, thirdAsk)
 
 	else:
-		bot.send_message(message.chat.id,'Извините, я не понимаю ваш ответ')
+		bot.send_message(message.chat.id,'Извините, я не понимаю ваш ответ.')
 
 def thirdAsk(message):
 	if message.text.lower() == 'да' or message.text.lower() == 'нет':
@@ -73,11 +73,11 @@ def confirm_not_confirm(message):
 	if 'Согласен' in message.text:
 		data.append('Согласен(-на)')
 		confirm = True
-		msg = bot.send_message(message.chat.id, 'Вы подтвердили обработку ваших персональных данных')
+		msg = bot.send_message(message.chat.id, 'Вы подтвердили обработку ваших персональных данных.')
 	elif 'Не согласен' in message.text:
 		data.append('Не согласен(-на)')
 		confirm = False
-		msg = bot.send_message(message.chat.id, 'Вы отказали обработку ваших персональных данных')
+		msg = bot.send_message(message.chat.id, 'Вы отказали обработку ваших персональных данных.')
 
 
 bot.polling(none_stop = True)

@@ -79,7 +79,7 @@ def confirm_not_confirm(message):
 	elif 'Не согласен' in message.text:
 		data.append('Не согласен(-на)')
 		confirm = False
-		msg = bot.send_message(message.chat.id, 'Вы отказали обработку ваших персональных данных.')
+		msg = bot.send_message(message.chat.id, 'Вы отказали обработку ваших персональных данных')
 
 
 bot.polling(none_stop = True)

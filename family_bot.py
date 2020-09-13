@@ -6,6 +6,7 @@ import sqlite3
 from sqlite3 import Error
 
 data = [] #Данные для sql
+confirm = False
 
 bot = telebot.TeleBot(config.token)
 
@@ -47,10 +48,20 @@ def fourthAsk(message):
 		data.append(message.text)
 	elif message.text.lower() == 'нет':
 		data.append(message.text)
-		keyboard = types.InlineKeyboardMarkup()
-		confirm_button = types.InlineKeyboardButton(text = '\xE2\x9C\x85')
-		not_confirm_button = types.InlineKeyboardButton(text = '\xE2\x9D\x8C')
-		keyboard.add(confirm_button, not_confirm_button)
- 		msg = bot.send_message(message.chat.id, 'Ознакомьтесь с политикой обработки персональных данных и дайте нам свое согласие проследовав дальше')
+		keyboard = telebot.types.ReplyKeyboardMarkup(True)
+		keyboard.row(u'\U00002705'+'Согласен', u'\U0000274C'+'Не согласен')
+		msg = bot.send_message(message.chat.id, 'Ознакомьтесь с политикой обработки персональных данных перейдя по данной ссылке:', reply_markup=keyboard)
+		bot.register_next_step_handler(msg, confirm_not_confirm)
+
+def confirm_not_confirm(message):
+	if 'Согласен' in message.text:
+		data.append('Согласен')
+		confirm = True
+		msg = bot.send_message(message.chat.id, 'Вы подтвердили обработку ваших персональных данных' + str(data))
+	elif 'Не согласен' in message.text:
+		data.append('Не согласен')
+		confirm = False
+		msg = bot.send_message(message.chat.id, 'Вы отказали обработку ваших персональных данных')
+
 
 bot.polling(none_stop = True)

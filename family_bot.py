@@ -42,7 +42,7 @@ def thirdAsk(message):
 		bot.register_next_step_handler(msg, fourthAsk)
 
 	else:
-		bot.send_message(message.chat.id,'Извините, я не понимаю ваш ответ')
+		bot.send_message(message.chat.id,'Извините, я не понимаю ваш ответ.')
 
 def fourthAsk(message):
 	if message.text.lower() == 'да':

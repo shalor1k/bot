@@ -31,7 +31,7 @@ def secondAsk(message):
 		bot.register_next_step_handler(msg, thirdAsk)
 
 	else:
-		bot.send_message(message.chat.id,'Извините, я не понимаю ваш ответ')
+		bot.send_message(message.chat.id,'Извините, я не понимаю ваш ответ.')
 
 def thirdAsk(message):
 	if message.text.lower() == 'да' or message.text.lower() == 'нет':
